@@ -1,16 +1,16 @@
 from pypdf import PdfWriter, PdfReader
 
 # Update this to whatever their level is
-level = "5"
+level = "1"
 
 merger = PdfWriter()
 
 # Open each of the individual sheets as a Reader
-eg = PdfReader("in/Eglatine Grubb - Rogue " + level + ".pdf")
-hector = PdfReader("in/Hector Lohikäärme - Paladin " + level + ".pdf")
-storr = PdfReader("in/Storr Amberfine - Rogue " + level + ".pdf")
-thrice = PdfReader("in/Thrice Parented - Fighter " + level + ".pdf")
-ulysses = PdfReader("in/Ulysses Ilias - Bard " + level + ".pdf")
+eg = PdfReader("in/Eg " + level + ".pdf")
+hector = PdfReader("in/Hector " + level + ".pdf")
+storr = PdfReader("in/Storr " + level + ".pdf")
+thrice = PdfReader("in/Thrice " + level + ".pdf")
+ulysses = PdfReader("in/Ulysses " + level + ".pdf")
 
 # Add a form_topname for the contents of each sheet so that content isn't overwritten
 # Not doing this caused content in fields from the first sheet to be copied into correpsonding
@@ -22,14 +22,15 @@ thrice.add_form_topname("thrice")
 ulysses.add_form_topname("ulysses")
 
 # Adds the relevant pages for each char to the buffer
-merger.append(fileobj=eg, pages=(0, 2))
-merger.append(fileobj=hector, pages=(0, 3))
-merger.append(fileobj=storr, pages=(0, 2))
-merger.append(fileobj=thrice, pages=(0, 1))
-merger.append(fileobj=ulysses, pages=(0, 3))
+[merger.add_page(page) for page in eg.pages[:3]]
+[merger.add_page(page) for page in hector.pages[:2]]
+[merger.add_page(page) for page in storr.pages[:2]]
+[merger.add_page(page) for page in thrice.pages[:2]]
+[merger.add_page(page) for page in ulysses.pages[:3]]
+
 
 # Create output file
-output = open("out/combined_characters2.pdf", "wb")
+output = open("out/combined_characters.pdf", "wb")
 
 # Write content
 merger.write(output)
